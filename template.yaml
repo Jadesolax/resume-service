@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >
+  resume-service
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  FetchResumesFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      CodeUri: .
+      Environment:
+        Variables:
+          TABLE_NAME: "Resumes"
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+      Events:
+        GetResumes:
+          Type: Api
+          Properties:
+            Path: /resumes
+            Method: get
